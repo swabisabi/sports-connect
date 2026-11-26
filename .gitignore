@@ -1,0 +1,16 @@
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
+# downloaded videos
+downloads/
+
+# execution scratch
+.superpowers/
+__pycache__/
+.pytest_cache/
+data/listings.csv
+data/passes.csv

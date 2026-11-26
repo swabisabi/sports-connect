@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sports Connect</title>
+<meta property="og:title" content="Sports Connect">
+<meta property="og:description" content="New in town? Find your team. Basketball, football, running, table tennis and badminton in Eldoret.">
+<meta property="og:image" content="https://swabisabi.github.io/sports-connect/thumbnail.png">
+<meta property="og:url" content="https://swabisabi.github.io/sports-connect/">
+<style>
+  body { font: 18px/1.4 system-ui, sans-serif; margin: 0 auto; max-width: 32rem; padding: 1rem; }
+  h1 { font-size: 1.5rem; }
+  summary { font-weight: 600; padding: .9rem 0; border-bottom: 1px solid #ddd; cursor: pointer; }
+  fieldset { border: 0; padding: 0; margin: 0 0 .8rem; }
+  legend { font-weight: 600; padding: 0; }
+  label.box { display: block; padding: .5rem 0; }
+  label.box input { width: 1.3rem; height: 1.3rem; vertical-align: middle; margin-right: .6rem; }
+  input[type=text], select, textarea { font: inherit; width: 100%; box-sizing: border-box; padding: .7rem; margin-top: .3rem; }
+  button { font: inherit; font-weight: 600; width: 100%; padding: .9rem; border: 0; border-radius: .5rem;
+           background: #222; color: #fff; }
+  [hidden] { display: none !important; }
+  #sponsor { margin-top: 2rem; padding: .9rem; border: 1px dashed #888; text-align: center; }
+  img.hero { width: 100%; height: auto; border-radius: .75rem; }
+  label.card { display: block; border: 2px solid #ccc; border-radius: .75rem; padding: .9rem; margin-bottom: .8rem; }
+  label.card:has(input:checked) { border-color: #1a7f4b; background: #eef8f2; }
+  label.card input { width: 1.3rem; height: 1.3rem; vertical-align: middle; margin-right: .6rem; }
+  label.card .price { display: block; font-weight: 700; color: #1a7f4b; margin: .3rem 0; }
+  label.card ul { margin: .5rem 0 0; padding-left: 1.2rem; font-size: .95rem; }
+  a.join { display: block; margin: .6rem 0; padding: .9rem 1rem; background: #1a7f4b; color: #fff;
+           border-radius: .5rem; text-decoration: none; }
+</style>
+</head>
+<body>
+<img class="hero" src="thumbnail.png" width="1200" height="630" alt="Sports Connect: basketball, football, running, table tennis and badminton">
+<h1>New in town? Find your team.</h1>
+<h2>1. About you</h2>
+<form id="intro">
+  <fieldset><label>Name<input type="text" name="who" autocomplete="given-name" maxlength="40"></label></fieldset>
+  <fieldset><legend>Age group</legend>
+    <label class="box"><input type="checkbox" name="age" value="Teenager (13-17)">Teenager (13-17)</label>
+    <label class="box"><input type="checkbox" name="age" value="Young adult (18-35)">Young adult (18-35)</label>
+    <label class="box"><input type="checkbox" name="age" value="Adult (36+)">Adult (36+)</label>
+  </fieldset>
+  <p id="teen-note" hidden>Under 18? Ask a parent or guardian before you join, and take them or a coach to your first session.</p>
+  <fieldset><legend>Sports you play</legend>
+    <label class="box"><input type="checkbox" name="sport" value="Basketball">Basketball</label>
+    <label class="box"><input type="checkbox" name="sport" value="Football">Football</label>
+    <label class="box"><input type="checkbox" name="sport" value="Running">Running</label>
+    <label class="box"><input type="checkbox" name="sport" value="Table Tennis">Table Tennis</label>
+    <label class="box"><input type="checkbox" name="sport" value="Badminton">Badminton</label>
+  </fieldset>
+  <h2>2. Choose your package</h2>
+  <p>Paid training packages are launching soon. Signing up registers your interest. <strong>You are not charged, so please don't send money yet.</strong></p>
+  <div id="packages"></div>
+  <button type="submit">Sign up</button>
+  <p id="status" role="status"></p>
+</form>
+<div id="result" hidden>
+  <h2>3. Send your sign-up</h2>
+  <p id="send-help"></p>
+  <a id="signup-send" class="join" rel="noopener" hidden>Send my sign-up on WhatsApp</a>
+  <textarea id="signup-message" rows="7" readonly></textarea>
+  <button type="button" id="copy-signup">Copy my sign-up</button>
+  <p id="signup-status" role="status"></p>
+  <h3>Your group intro</h3>
+  <textarea id="output" rows="4" readonly></textarea>
+  <button type="button" id="copy-intro">Copy my intro</button>
+  <p id="intro-status" role="status"></p>
+</div>
+<h2>4. Join your group and say hi</h2>
+<p>Pick your town, join the WhatsApp group for your sport, then paste your intro.</p>
+<a id="community-always" class="join" hidden>Join the Sports Connect Community on WhatsApp</a>
+<div id="towns"></div>
+<p id="fallback" hidden>Groups are opening soon. Message us on WhatsApp to get added.</p>
+<a id="community" class="join" hidden>Join the Sports Connect Community on WhatsApp</a>
+<section id="pass" hidden>
+  <h2>First Game Pass</h2>
+  <p>First Game Pass: KSh 200, once. We get you into a session within 7 days, or your money back. Bring a friend: KSh 50 for each friend who buys a pass and attends.</p>
+  <p><strong>Under 18? Do not pay until your parent or guardian agrees.</strong></p>
+  <p><strong>Pay to till <span id="till"></span></strong>, then fill in this form.</p>
+  <form id="pass-form">
+    <fieldset><label>Name<input type="text" name="who" maxlength="40"></label></fieldset>
+    <fieldset><label>Sport<select name="sport"><option value="">Choose a sport</option></select></label></fieldset>
+    <fieldset><label>Age group<select name="age"><option value="">Choose your age group</option>
+      <option>Teenager (13-17)</option><option>Young adult (18-35)</option><option>Adult (36+)</option></select></label></fieldset>
+    <label class="box" id="guardian" hidden><input type="checkbox" name="guardianOk">My parent or guardian agrees to this payment and booking</label>
+    <fieldset><label>M-Pesa code (10 letters and numbers)<input type="text" name="code" maxlength="20" autocapitalize="characters"></label></fieldset>
+    <fieldset><label>Referred by (optional)<input type="text" name="referrer" maxlength="40"></label></fieldset>
+    <button type="submit">Prepare my booking</button>
+    <p id="pass-status" role="status"></p>
+  </form>
+  <div id="pass-result" hidden>
+    <a id="pass-send" class="join" rel="noopener">Send booking on WhatsApp</a>
+    <textarea id="pass-message" rows="7" readonly></textarea>
+  </div>
+</section>
+<p id="sponsor"></p>
+<script src="hub.js"></script>
+<script src="pass.js"></script>
+<script src="signup.js"></script>
+</body>
+</html>
